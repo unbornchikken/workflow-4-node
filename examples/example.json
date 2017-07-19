@@ -1,0 +1,15 @@
+{"@workflow": {
+    "value" : 1,
+    "args": [
+      {"@block": {
+          "value": 2,
+          "args": [
+            {"@console": "= this.value"}
+          ]
+        }
+      },
+      {"@console": "This is some console output"},
+      {"@console": "=this.value"}
+    ]
+  }
+}
