@@ -244,7 +244,7 @@ describe("declarators", function () {
         });
     });
 
-    describe("Pick", function () {
+    describe.skip("Pick", function () {
         it("should work as expected with sync activities", function (done) {
             let activity = activityMarkup.parse(
                 {
