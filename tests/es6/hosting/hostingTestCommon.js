@@ -294,6 +294,7 @@ module.exports = {
         hostOptions = _.extend(
             {
                 enablePromotions: true,
+                lockRenewalTimeout: 10000,
                 wakeUpOptions: {
                     interval: 500
                 }
@@ -365,7 +366,7 @@ module.exports = {
             error = e;
         });
         try {
-            //host.addTracker(new ConsoleTracker());
+            host.addTracker(new ConsoleTracker());
             host.registerWorkflow(workflow);
 
             let id = "1";
@@ -443,6 +444,7 @@ module.exports = {
         hostOptions = _.extend(
             {
                 enablePromotions: true,
+                lockRenewalTimeout: 10000,
                 wakeUpOptions: {
                     interval: 1000
                 }

@@ -13,11 +13,8 @@
         "--inspect-brk",
         "${workspaceFolder}/tests",
       ],
-      "env": {
-        "DEBUG": ""
-      },
-      "console": "integratedTerminal",
-      "internalConsoleOptions": "neverOpen",
+      // "console": "integratedTerminal",
+      // "internalConsoleOptions": "neverOpen",
       "port": 9229
     }
   ]
