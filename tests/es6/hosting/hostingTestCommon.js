@@ -23,15 +23,25 @@ module.exports = {
         let workflow = {
             "@workflow": {
                 name: "wf",
+                "!bart": 0,
                 "!v": null,
+                "!w": "",
                 "!x": 0,
                 args: [
                     {
+                        // The `result` of beginMethod is its arguments, so this essentially causes the arguments
+                        // passed to `foo` to be copied to the `v` scoped variable.
                         "@beginMethod": {
                             methodName: "foo",
                             canCreateInstance: true,
                             instanceIdPath: "[0]",
                             "@to": "v"
+                        }
+                    },
+                    {
+                        "@assign": {
+                            value: "oi!",
+                            to: "w"
                         }
                     },
                     {
@@ -51,7 +61,20 @@ module.exports = {
                         "@method": {
                             methodName: "bar",
                             instanceIdPath: "[0]",
-                            result: "= this.v * 2"
+                            result: "= this.v * 2",
+                        }
+                    },
+                    {
+                        "@assign": {
+                            value: "= this.v * 2",
+                            to: "bart",
+                        }
+                    },
+                    {
+                        "@method": {
+                            methodName: "stop",
+                            instanceIdPath: "[0]",
+                            result: "= this.v * 2",
                         }
                     },
                     "some string for wf result but not for the method result"
@@ -73,17 +96,26 @@ module.exports = {
             assert.equal(result, 25);
 
             // Verify promotedProperties:
+            let promotedProperties;
             if (hostOptions && hostOptions.persistence) {
-                let promotedProperties = yield host.persistence.loadPromotedProperties("wf", 5);
+                promotedProperties = yield host.persistence.loadPromotedProperties("wf", 5);
                 assert.ok(promotedProperties);
                 assert.equal(promotedProperties.v, 25);
+                assert.equal(promotedProperties.w, "oi!");
                 assert.equal(promotedProperties.x, 666);
-                assert.equal(_.keys(promotedProperties).length, 2);
+                // assert.equal(_.keys(promotedProperties).length, 2);
             }
 
             result = yield (host.invokeMethod("wf", "bar", [5]));
 
             assert.equal(result, 50);
+            if (hostOptions && hostOptions.persistence) {
+                promotedProperties = yield host.persistence.loadPromotedProperties("wf", 5);
+                assert.ok(promotedProperties);
+                assert.equal(promotedProperties.bart, 50);
+            }
+
+            result = yield (host.invokeMethod("wf", "stop", [5]));
         }
         finally {
             host.shutdown();
@@ -104,6 +136,12 @@ module.exports = {
                         "@while": {
                             condition: "= this.running",
                             args: {
+                                // `pick` runs all blocks in parallel, when one block completes all the others are
+                                // cancelled. Each block below registers a method, which will immediately put the
+                                // block in `idle` state until the method is called. When a method is called, it
+                                // copies the input argument to the `inputArgs` variable and then the rest of the
+                                // block runs, which consists of an `assign` activity which performs the actual
+                                // calculation.
                                 "@pick": [
                                     {
                                         "@block": {
@@ -366,7 +404,7 @@ module.exports = {
             error = e;
         });
         try {
-            host.addTracker(new ConsoleTracker());
+            // host.addTracker(new ConsoleTracker());
             host.registerWorkflow(workflow);
 
             let id = "1";
@@ -551,7 +589,7 @@ module.exports = {
                 assert(false);
             }
             catch (e) {
-                // In persistence it's a version 0 workflow, but that's not registered in the new host, so if fails:
+                // In persistence it's a version 0 workflow, but that's not registered in the new host, so it fails:
                 assert(e.message.indexOf("has not been registered") > 0);
                 error = null;
             }
