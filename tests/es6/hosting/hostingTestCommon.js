@@ -433,7 +433,7 @@ module.exports = {
             assert(!result);
 
             // Let's wait.
-            yield Bluebird.delay(1000);
+            yield Bluebird.delay(2000);
 
             if (error) {
                 let pError = error;
