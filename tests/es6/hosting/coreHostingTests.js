@@ -56,48 +56,48 @@ describe("WorkflowHost", function () {
     }
 
     let allOptions = [
-        // {
-        //     persistence: null,
-        //     lazyPersistence: false,
-        //     serializer: null,
-        //     alwaysLoadState: false
-        // },
+        {
+            persistence: null,
+            lazyPersistence: false,
+            serializer: null,
+            alwaysLoadState: false
+        },
         {
             persistence: new MemoryPersistence(),
             lazyPersistence: false,
             serializer: null,
             alwaysLoadState: false
         },
-        // {
-        //     persistence: new MemoryPersistence(),
-        //     lazyPersistence: true,
-        //     serializer: null,
-        //     alwaysLoadState: false
-        // },
-        // {
-        //     persistence: new MemoryPersistence(),
-        //     lazyPersistence: false,
-        //     serializer: new Serializer(),
-        //     alwaysLoadState: false
-        // },
-        // {
-        //     persistence: new MemoryPersistence(),
-        //     lazyPersistence: true,
-        //     serializer: new Serializer(),
-        //     alwaysLoadState: false
-        // },
-        // {
-        //     persistence: new MemoryPersistence(),
-        //     lazyPersistence: false,
-        //     serializer: new Serializer(),
-        //     alwaysLoadState: true
-        // },
-        // {
-        //     persistence: new MemoryPersistence(),
-        //     lazyPersistence: true,
-        //     serializer: new Serializer(),
-        //     alwaysLoadState: true
-        // }
+        {
+            persistence: new MemoryPersistence(),
+            lazyPersistence: true,
+            serializer: null,
+            alwaysLoadState: false
+        },
+        {
+            persistence: new MemoryPersistence(),
+            lazyPersistence: false,
+            serializer: new Serializer(),
+            alwaysLoadState: false
+        },
+        {
+            persistence: new MemoryPersistence(),
+            lazyPersistence: true,
+            serializer: new Serializer(),
+            alwaysLoadState: false
+        },
+        {
+            persistence: new MemoryPersistence(),
+            lazyPersistence: false,
+            serializer: new Serializer(),
+            alwaysLoadState: true
+        },
+        {
+            persistence: new MemoryPersistence(),
+            lazyPersistence: true,
+            serializer: new Serializer(),
+            alwaysLoadState: true
+        }
     ];
 
     describe("Without Persistence and With Memory Persistence", function () {

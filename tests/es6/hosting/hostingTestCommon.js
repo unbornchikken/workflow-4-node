@@ -23,9 +23,7 @@ module.exports = {
         let workflow = {
             "@workflow": {
                 name: "wf",
-                "!bart": 0,
                 "!v": null,
-                "!w": "",
                 "!x": 0,
                 args: [
                     {
@@ -36,12 +34,6 @@ module.exports = {
                             canCreateInstance: true,
                             instanceIdPath: "[0]",
                             "@to": "v"
-                        }
-                    },
-                    {
-                        "@assign": {
-                            value: "oi!",
-                            to: "w"
                         }
                     },
                     {
@@ -60,19 +52,6 @@ module.exports = {
                     {
                         "@method": {
                             methodName: "bar",
-                            instanceIdPath: "[0]",
-                            result: "= this.v * 2",
-                        }
-                    },
-                    {
-                        "@assign": {
-                            value: "= this.v * 2",
-                            to: "bart",
-                        }
-                    },
-                    {
-                        "@method": {
-                            methodName: "stop",
                             instanceIdPath: "[0]",
                             result: "= this.v * 2",
                         }
@@ -101,21 +80,12 @@ module.exports = {
                 promotedProperties = yield host.persistence.loadPromotedProperties("wf", 5);
                 assert.ok(promotedProperties);
                 assert.equal(promotedProperties.v, 25);
-                assert.equal(promotedProperties.w, "oi!");
                 assert.equal(promotedProperties.x, 666);
-                // assert.equal(_.keys(promotedProperties).length, 2);
+                assert.equal(_.keys(promotedProperties).length, 2);
             }
 
             result = yield (host.invokeMethod("wf", "bar", [5]));
-
             assert.equal(result, 50);
-            if (hostOptions && hostOptions.persistence) {
-                promotedProperties = yield host.persistence.loadPromotedProperties("wf", 5);
-                assert.ok(promotedProperties);
-                assert.equal(promotedProperties.bart, 50);
-            }
-
-            result = yield (host.invokeMethod("wf", "stop", [5]));
         }
         finally {
             host.shutdown();
