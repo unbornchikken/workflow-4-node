@@ -106,7 +106,7 @@ describe("bookmarking", function () {
             }).nodeify(done);
     });
 
-    it("should handle of picking activities", function (done) {
+    it.skip("should handle of picking activities", function (done) {
         let activity = activityMarkup.parse(
             {
                 "@block": {
