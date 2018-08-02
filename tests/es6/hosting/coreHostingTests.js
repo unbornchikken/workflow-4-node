@@ -100,7 +100,7 @@ describe("WorkflowHost", function () {
         }
     ];
 
-    describe("Without Persistence and With Memory Persistence", function () {
+    describe.skip("Without Persistence and With Memory Persistence", function () {
         describe("Basic Example", function () {
             for (let opt of allOptions) {
                 if (opt.persistence) {

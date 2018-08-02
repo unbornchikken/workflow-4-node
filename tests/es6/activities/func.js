@@ -12,6 +12,9 @@ let _ = require("lodash");
 let errors = wf4node.common.errors;
 
 describe("Func", function () {
+    before(function () {
+        activityMarkup.registerTypes('../../../lib/es6/activities/index');
+    });
     it("should run with a synchronous code", function (done) {
         let fop = new Func();
         fop.code = function (obj) {
@@ -20,7 +23,7 @@ describe("Func", function () {
 
         let engine = new ActivityExecutionEngine(fop);
 
-        engine.invoke({name: "Gabor"}).then(
+        engine.invoke({ name: "Gabor" }).then(
             function (result) {
                 assert.equal(result, "Gabor");
             }).nodeify(done);
@@ -38,7 +41,7 @@ describe("Func", function () {
 
         let engine = new ActivityExecutionEngine(fop);
 
-        engine.invoke({name: "Gabor"}).then(
+        engine.invoke({ name: "Gabor" }).then(
             function (result) {
                 assert.equal(result, "Gabor");
             }).nodeify(done);
@@ -56,10 +59,10 @@ describe("Func", function () {
 
         let engine = new ActivityExecutionEngine(fop);
 
-        engine.invoke({name: "Gabor"})
+        engine.invoke({ name: "Gabor" })
             .then(function (result) {
                 assert.equal(result, "Gabor");
-                return engine.invoke({name: "Pisti"})
+                return engine.invoke({ name: "Pisti" })
                     .then(function (result2) {
                         assert.equal(result2, "Pisti");
                     });
@@ -74,7 +77,7 @@ describe("Func", function () {
 
         let engine = new ActivityExecutionEngine(fop);
 
-        engine.invoke({name: "Mezo"}).then(
+        engine.invoke({ name: "Mezo" }).then(
             function (result) {
                 assert.equal(result, "Mezo");
             }).nodeify(done);
@@ -88,14 +91,14 @@ describe("Func", function () {
 
         let engine = new ActivityExecutionEngine(fop);
 
-        engine.invoke({name: "Mezo"}).then(
+        engine.invoke({ name: "Mezo" }).then(
             function (result) {
                 assert.equal(result, "Mezo");
             }).nodeify(done);
     });
 
     it("should not accept activities as arguments", function (done) {
-        let expected = {name: "Gabor"};
+        let expected = { name: "Gabor" };
         let fop = new Func();
         fop.code = function (obj) {
             return obj.name;
@@ -111,13 +114,13 @@ describe("Func", function () {
             .then(function (result) {
                 assert(false);
             },
-            function (e) {
-                assert(e instanceof errors.ActivityRuntimeError);
-            }).nodeify(done);
+                function (e) {
+                    assert(e instanceof errors.ActivityRuntimeError);
+                }).nodeify(done);
     });
 
     it("should work as an agument", function (done) {
-        let expected = {name: "Gabor"};
+        let expected = { name: "Gabor" };
 
         let fop = activityMarkup.parse(
             {
@@ -144,7 +147,7 @@ describe("Func", function () {
     });
 
     it("should include lodash as last argument", function (done) {
-        let expected = {name: "GaborMezo"};
+        let expected = { name: "GaborMezo" };
 
         let fop = activityMarkup.parse(
             {
@@ -184,7 +187,7 @@ describe("Func", function () {
                         args: {
                             "@func": {
                                 code: "= this.block.code",
-                                args: {name: "Gabor"}
+                                args: { name: "Gabor" }
                             }
                         }
                     }
@@ -213,7 +216,7 @@ describe("Func", function () {
                         args: {
                             "@func": {
                                 code: "= this.block.code",
-                                args: {name: "Gabor"}
+                                args: { name: "Gabor" }
                             }
                         }
                     }
@@ -242,7 +245,7 @@ describe("Func", function () {
                         args: {
                             "@func": {
                                 code: "= this.block.code",
-                                args: {name: "GaborMezo"}
+                                args: { name: "GaborMezo" }
                             }
                         }
                     }
@@ -272,9 +275,9 @@ describe("Func", function () {
                 .then(function (result) {
                     assert(false);
                 },
-                function (e) {
-                    assert(/Boo/.test(e.message));
-                }).nodeify(done);
+                    function (e) {
+                        assert(/Boo/.test(e.message));
+                    }).nodeify(done);
         });
     });
 });
