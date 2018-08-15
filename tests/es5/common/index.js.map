@@ -1,1 +1,0 @@
-{"version":3,"sources":["common/index.js"],"names":[],"mappings":"AAAA;;;AAAY,CAAC;AAGb,QAAQ,CAAC,QAAQ,EAAE,YAAW;AAC1B,WAAO,CAAC,eAAe,CAAC,CAAC;CAC5B,CAAC,CAAC","file":"common/index.js","sourcesContent":["\"use strict\";\n/* global describe,it */\n\ndescribe(\"common\", function() {\n    require(\"./simpleProxy\");\n});"],"sourceRoot":"/source/"}
